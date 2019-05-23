@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * When the user clicks register at the WelcomeGUI class, this class
@@ -18,7 +20,7 @@ import java.io.IOException;
  * 
  */
 
-public class RegisterGUI {
+public class RegisterGUI extends PasswordHash {
 
 	/**
 	 * VARIABLES Creates the JLabels, JButtons, JPanel and JFrame
@@ -193,8 +195,10 @@ public class RegisterGUI {
 			 * A series of checks is performed to check if the fields contain valid values
 			 * If all is correct, the user_login string is written to user_information.txt
 			 */
+			
 			String username = registerLogin.getText();
 			String password = new String(registerPassword.getPassword());
+			password = getSha256(password);	
 			String user_login = username + "-" + password;
 			if (username.isEmpty() && !password.isEmpty()) {
 				accountRegistered("Username field is empty");

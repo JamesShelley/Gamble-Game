@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.MessageDigest;
 
 /**
  * 
@@ -14,7 +15,7 @@ import java.io.IOException;
  * @author James Shelley - s4923268
  * @version 1
  */
-public class LoginGUI {
+public class LoginGUI extends PasswordHash {
 
 	private JLabel lblTitle, lblLogin, lblPassword;
 	private JTextField userLogin;
@@ -167,6 +168,22 @@ public class LoginGUI {
 			e.printStackTrace();
 		}
 	}
+	
+	public String getSha256(String value) {
+	    try{
+	        MessageDigest md = MessageDigest.getInstance("SHA-256");
+	        md.update(value.getBytes());
+	        return bytesToHex(md.digest());
+	    } catch(Exception ex){
+	        throw new RuntimeException(ex);
+	    }
+	 }
+	
+	 private String bytesToHex(byte[] bytes) {
+		    StringBuffer result = new StringBuffer();
+		    for (byte b : bytes) result.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+		    return result.toString();
+	 }
 
 	/**
 	 * Checks if the username and password the user inputted is in the
@@ -192,9 +209,11 @@ public class LoginGUI {
 											// index of 1.
 		String user = info[0];
 		String pass = info[1];
-		if (user.equals(name) && pass.equals(userpass)) {
+		if (user.equals(name) && pass.equals(getSha256(userpass))) {
+			System.out.println(getSha256(userpass));
 			return true;
 		} else if(user.equals(name) && !pass.equals(userpass)) {
+			System.out.println(getSha256(userpass));
 			accountLogin("Incorrect password");
 			return false;
 		} else {

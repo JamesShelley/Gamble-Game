@@ -138,10 +138,12 @@ public class MenuGUI {
 	public void addButtons() {
 		
 		/**
-		 * Play Button
+		 * Play Button		
 		 */
 		btnPlay = new JButton("Play Now");
 		btnPlay.setBounds(195, 100, 150, 50);
+		btnPlay.setBorderPainted(false);
+		btnPlay.setFocusPainted(false);
 		btnPlay.addActionListener(new PlayHandler());
 		menuPanel.add(btnPlay);
 		
