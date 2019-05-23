@@ -194,8 +194,11 @@ public class LoginGUI {
 		String pass = info[1];
 		if (user.equals(name) && pass.equals(userpass)) {
 			return true;
+		} else if(user.equals(name) && !pass.equals(userpass)) {
+			accountLogin("Incorrect password");
+			return false;
 		} else {
-			accountLogin("Invalid Details");
+			//accountLogin("Invalid Details");
 			return false;
 		}
 
